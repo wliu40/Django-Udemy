@@ -21,11 +21,8 @@ def monthly_challenge(request, month):
     return render(request, "challenges/challenge.html", {'month_name': month, 'month_challenge': month_dict[month]})
 
 
-def index(response):
+def index(request):
     list_items = ""
     months = list(month_dict.keys())
-    for month in months:
-        month_path = reverse("month-challenge", args=[month])
-        list_items += f"<li><a href=\"{month_path}\">{month.capitalize()}</a></li>"
-    response_data = f"<ul>{list_items}</ul>"
-    return HttpResponse(response_data)
+    ret = render(request, "challenges/index.html", {'months': months})
+    return ret
