@@ -1,0 +1,12 @@
+{
+    "python.languageServer": "Pylance",
+    "editor.tabSize": 4,
+    "files.associations": {
+        "**/*.html": "django-html",
+        "**/templates/**/*.html": "jango-html",
+        "**/templates/**/*": "django-txt",
+        "**/requirements{/**,*}.{txt,in}": "pip-requirements"
+    },
+    "emmet.includeLanguages": {
+        "django-html": "html"}
+}

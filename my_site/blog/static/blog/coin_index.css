@@ -1,0 +1,47 @@
+.container {
+    display: flex;
+  }
+
+  .sections {
+    width: 300px;
+    height: 20vh;
+    background-color: #9ac525;
+    padding: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+
+  .section {
+    cursor: pointer;
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+
+  .sub-sections {
+    display: none;
+    margin-left: 20px;
+  }
+
+  .sub-sections.show {
+    display: block;
+  }
+
+  .sub-section {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+  }
+
+
+  .sub-section:hover,
+  .sub-section:active {
+    transform: scale(1.05);
+    /* background-color: #390281; */
+    color: white;
+  }
+  
+
+  .content {
+    flex: 1;
+    padding: 10px;
+  }

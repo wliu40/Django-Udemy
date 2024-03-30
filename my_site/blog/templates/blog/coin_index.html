@@ -1,0 +1,97 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expandable Sections</title>
+  <link rel="stylesheet" href="{% static "blog/coin_index.css" %}" >
+  <!-- <style>
+    .container {
+      display: flex;
+    }
+
+    .sections {
+      width: 300px;
+      height: 20vh;
+      background-color: #9ac525;
+      padding: 10px;
+      padding-top: 15px;
+      padding-bottom: 15px;
+    }
+
+    .section {
+      cursor: pointer;
+      padding-top: 15px;
+      padding-bottom: 15px;
+    }
+
+    .sub-sections {
+      display: none;
+      margin-left: 20px;
+    }
+
+    .sub-sections.show {
+      display: block;
+    }
+
+    .sub-section {
+      cursor: pointer;
+      color: blue;
+      text-decoration: underline;
+    }
+
+    .content {
+      flex: 1;
+      padding: 10px;
+    }
+  </style> -->
+</head>
+<body>
+  <div class="container">
+    <div class="sections">
+      <div class="section">
+        <span>Section 1</span>
+        <div class="sub-sections">
+          <div class="sub-section" data-href="https://example.com/sub-section-1">Sub-section 1</div>
+          <div class="sub-section" data-href="https://example.com/sub-section-2">Sub-section 2</div>
+          <div class="sub-section" data-href="https://example.com/sub-section-3">Sub-section 3</div>
+        </div>
+      </div>
+      <div class="section">
+        <span>Section 2</span>
+        <div class="sub-sections">
+          <div class="sub-section" data-href="https://example.com/sub-section-4">Sub-section 1</div>
+          <div class="sub-section" data-href="https://example.com/sub-section-5">Sub-section 2</div>
+          <div class="sub-section" data-href="https://example.com/sub-section-6">Sub-section 3</div>
+          <div class="sub-section" data-href="https://example.com/sub-section-7">Sub-section 4</div>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <iframe id="contentFrame" src="" frameborder="0" width="100%" height="100%"></iframe>
+    </div>
+  </div>
+
+  <script>
+    const sections = document.querySelectorAll('.section');
+    const contentFrame = document.getElementById('contentFrame');
+
+    sections.forEach(section => {
+      section.addEventListener('click', () => {
+        const subSections = section.querySelector('.sub-sections');
+        subSections.classList.toggle('show');
+      });
+    });
+
+    const subSections = document.querySelectorAll('.sub-section');
+    subSections.forEach(subSection => {
+      subSection.addEventListener('click', () => {
+        const href = subSection.dataset.href;
+        contentFrame.src = href;
+      });
+    });
+  </script>
+</body>
+</html>
