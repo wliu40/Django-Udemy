@@ -16,3 +16,7 @@ def post_detail(request, slug):
 
 def coin_index(request):
     return render(request, 'blog/coin_index.html')
+
+
+def plot_chart(request):
+    return render(request, 'blog/plot_chart.html')

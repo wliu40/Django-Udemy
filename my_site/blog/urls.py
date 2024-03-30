@@ -6,4 +6,5 @@ urlpatterns = [
     path('posts', view=views.posts, name='posts-page'),
     path('posts/<slug:slug>', view=views.post_detail, name='post-detail-page'),
     path('coin_index', view=views.coin_index, name='coin-index-page'),
+    path('plot_chart', view=views.plot_chart, name='plot-chart-page')
 ]
