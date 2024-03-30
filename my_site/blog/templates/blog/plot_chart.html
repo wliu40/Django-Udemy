@@ -14,5 +14,11 @@
     <h2>this is the salesChart</h2>
     <canvas id="salesChart"></canvas>
 
+    <script>
+        const salesData = {{ sales_data|safe }};
+        // Call the createChart function with the sales data
+        createChart(salesData);
+    </script>
+
 </body>
 </html>

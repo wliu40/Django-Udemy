@@ -19,4 +19,19 @@ def coin_index(request):
 
 
 def plot_chart(request):
-    return render(request, 'blog/plot_chart.html')
+    sales_data = {
+        'shopA': [
+            {'date': '2023-03-01', 'sales': 100},
+            {'date': '2023-03-02', 'sales': 150},
+            {'date': '2023-03-03', 'sales': 120},
+            # ... more data points for Shop A
+        ],
+        'shopB': [
+            {'date': '2023-03-01', 'sales': 80},
+            {'date': '2023-03-02', 'sales': 200},
+            {'date': '2023-03-03', 'sales': 180},
+            # ... more data points for Shop B
+        ],
+    }
+
+    return render(request, 'blog/plot_chart.html', {'sales_data': sales_data})

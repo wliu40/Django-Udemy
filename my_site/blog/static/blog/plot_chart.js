@@ -1,28 +1,12 @@
 // plot_chart.js
 
-// Sample data
-const salesData = {
-    shopA: [
-      { date: '2023-03-01', sales: 100 },
-      { date: '2023-03-02', sales: 150 },
-      { date: '2023-03-03', sales: 120 },
-      // ... more data points for Shop A
-    ],
-    shopB: [
-      { date: '2023-03-01', sales: 80 },
-      { date: '2023-03-02', sales: 200 },
-      { date: '2023-03-03', sales: 180 },
-      // ... more data points for Shop B
-    ],
-  };
+function createChart(salesData) {
+    // Extract dates and sales data for each shop
+    const dates = salesData.shopA.map(entry => entry.date);
+    const shopASales = salesData.shopA.map(entry => entry.sales);
+    const shopBSales = salesData.shopB.map(entry => entry.sales);
   
-  // Extract dates and sales data for each shop
-  const dates = salesData.shopA.map(entry => entry.date);
-  const shopASales = salesData.shopA.map(entry => entry.sales);
-  const shopBSales = salesData.shopB.map(entry => entry.sales);
-  
-  // Create the chart
-  function createChart() {
+    // Create the chart
     const ctx = document.getElementById('salesChart').getContext('2d');
   
     new Chart(ctx, {
@@ -65,6 +49,3 @@ const salesData = {
       },
     });
   }
-  
-  // Call the createChart function when the page loads
-  window.onload = createChart;
