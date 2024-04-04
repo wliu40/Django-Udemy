@@ -13,7 +13,6 @@ def post_detail(request, slug):
     return render(request, 'blog/post-detail.html')
 
 
-
 def coin_index(request):
     return render(request, 'blog/coin_index.html')
 
