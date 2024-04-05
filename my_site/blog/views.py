@@ -73,7 +73,7 @@ def starting_page(request):
 
 
 def posts(request):
-    return render(request, 'blog/all-posts.html')
+    return render(request, 'blog/all-posts.html', {'posts': my_posts})
 
 
 def post_detail(request, slug):
