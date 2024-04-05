@@ -81,3 +81,5 @@ def post_detail(request, slug):
     return render(request, 'blog/post-detail.html', {'post': 
                                                      identified_post[0]})
 
+def show_plot(request):
+    return render(request, 'blog/plot_test_2.html')

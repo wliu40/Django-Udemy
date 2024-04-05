@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Login Status Over Time</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="myChart"></canvas>
+
+    <script>
+        // Assume you have the following data
+        const data = [
+            { user: 'User1', login_time: '09:15', login_status: 'Success', height: 1 },
+            { user: 'User2', login_time: '09:30', login_status: 'Fail', height: 2 },
+            { user: 'User1', login_time: '10:45', login_status: 'Success', height: 1 },
+            { user: 'User3', login_time: '11:00', login_status: 'Success', height: 3 },
+            { user: 'User2', login_time: '11:20', login_status: 'Success', height: 2 },
+            { user: 'User4', login_time: '12:10', login_status: 'Fail', height: 4 },
+            { user: 'User3', login_time: '13:30', login_status: 'Success', height: 3 },
+            { user: 'User4', login_time: '14:00', login_status: 'Success', height: 4 },
+            { user: 'User1', login_time: '14:40', login_status: 'Fail', height: 1 },
+            { user: 'User2', login_time: '15:20', login_status: 'Success', height: 2 }
+        ];
+
+        // Extract unique users
+        const users = [...new Set(data.map(item => item.user))];
+
+        // Find the minimum and maximum login times
+        const minTime = Math.min(...data.map(item => item.login_time));
+        const maxTime = Math.max(...data.map(item => item.login_time));
+
+        // Create datasets for each user
+        const datasets = users.map(user => ({
+            label: user,
+            data: [
+                { x: minTime, y: data.find(item => item.user === user).height },
+                ...data.filter(item => item.user === user).map(item => ({
+                    x: item.login_time,
+                    y: item.height,
+                    login_status: item.login_status // Add login_status to each data point
+                })),
+                { x: maxTime, y: data.find(item => item.user === user).height }
+            ],
+            borderColor: 'rgba(0, 0, 0, 0.1)',
+            pointBackgroundColor: function(context) {
+                const item = context.raw;
+                return item.login_status === 'Success' ? 'green' : 'red';
+            },
+            pointRadius: 6,
+            pointHoverRadius: 8,
+            showLine: true
+        }));
+
+        // Create a Chart.js instance
+        const ctx = document.getElementById('myChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'User Login Status Over Time'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const item = context.raw;
+                                return `${item.login_status} at ${context.label}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'category',
+                        title: {
+                            display: true,
+                            text: 'Login Time'
+                        }
+                    },
+                    y: {
+                        type: 'linear',
+                        min: 0,
+                        max: users.length + 1,
+                        ticks: {
+                            stepSize: 1,
+                            callback: function(value, index) {
+                                return users[index];
+                            }
+                        },
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Login Status Over Time</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="myChart"></canvas>
+
+    <script>
+        // Assume you have the following data
+        const data = [
+            { user: 'User1', login_time: '09:15', login_status: 'Success' },
+            { user: 'User2', login_time: '09:30', login_status: 'Fail' },
+            { user: 'User1', login_time: '10:45', login_status: 'Success' },
+            { user: 'User3', login_time: '11:00', login_status: 'Success' },
+            { user: 'User2', login_time: '11:20', login_status: 'Success' },
+            { user: 'User4', login_time: '12:10', login_status: 'Fail' },
+            { user: 'User3', login_time: '13:30', login_status: 'Success' },
+            { user: 'User4', login_time: '14:00', login_status: 'Success' },
+            { user: 'User1', login_time: '14:40', login_status: 'Fail' },
+            { user: 'User2', login_time: '15:20', login_status: 'Success' }
+        ];
+
+        // Extract unique users and create a color map
+        const users = [...new Set(data.map(item => item.user))];
+        const colorMap = {};
+        users.forEach((user, index) => {
+            colorMap[user] = `hsl(${(index * 60) % 360}, 70%, 50%)`;
+        });
+
+        // Create datasets for each user
+        const datasets = users.map(user => ({
+            label: user,
+            data: data.filter(item => item.user === user).map(item => ({
+                x: item.login_time,
+                y: item.login_status === 'Success' ? 1 : 0
+            })),
+            backgroundColor: colorMap[user],
+            borderColor: colorMap[user],
+            pointRadius: 6,
+            pointHoverRadius: 8
+        }));
+
+        // Create a Chart.js instance
+        const ctx = document.getElementById('myChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'scatter',
+            data: {
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'User Login Status Over Time'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const item = data[context.dataIndex];
+                                return `${item.user}: ${item.login_status} at ${item.login_time}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'category',
+                        title: {
+                            display: true,
+                            text: 'Login Time'
+                        }
+                    },
+                    y: {
+                        type: 'linear',
+                        min: 0,
+                        max: 1,
+                        ticks: {
+                            stepSize: 1,
+                            callback: function(value) {
+                                return value === 1 ? 'Success' : 'Fail';
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Login Status'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
