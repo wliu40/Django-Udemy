@@ -77,5 +77,7 @@ def posts(request):
 
 
 def post_detail(request, slug):
-    return render(request, 'blog/post-detail.html', {'post': my_posts[0]})
+    identified_post = list(filter(lambda x: x['slug'] == slug, my_posts))
+    return render(request, 'blog/post-detail.html', {'post': 
+                                                     identified_post[0]})
 
