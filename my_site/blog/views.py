@@ -103,19 +103,18 @@ def show_plot(request):
             {'user': 'User4', 'login_time': '2023-06-03 12:10:00', 'login_status': 'Fail', 'height': 4},
             {'user': 'User3', 'login_time': '2023-06-04 13:30:00', 'login_status': 'Success', 'height': 3},
             {'user': 'User4', 'login_time': '2023-06-04 14:00:00', 'login_status': 'Success', 'height': 4},
-            {'user': 'User1', 'login_time': '2023-06-05 14:40:00', 'login_status': 'Fail', 'height': 1},
-            {'user': 'User2', 'login_time': '2023-06-05 15:20:00', 'login_status': 'Success', 'height': 2}
+
         ]
 
-    date_string = "2023-08-04 12:00:00"
+
     format_code = "%Y-%m-%d %H:%M:%S"
     # Convert login_time to timestamp format
     for item in data:
         x = datetime.datetime.strptime(item['login_time'], format_code)       
         item['login_time'] =  x.timestamp() * 1000
-        print(item['login_time'])
+        item['height'] = item['height']
 
-    print(data)
+
     # Convert data to JSON format
     json_data = json.dumps(data)
 

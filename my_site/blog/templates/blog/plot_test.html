@@ -82,11 +82,11 @@
                         y: {
                             type: 'linear',
                             min: 0,
-                            max: users.length + 1,
+                            max: users.length+1,
                             ticks: {
                                 stepSize: 1,
                                 callback: function(value, index) {
-                                    return users[index];
+                                    return users[index-1];
                                 }
                             },
                             grid: {
