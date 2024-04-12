@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from datetime import date
+import json
+import datetime
 
 my_posts = [
     {
@@ -91,4 +93,50 @@ def post_detail(request, slug):
                                                      identified_post[0]})
 
 def show_plot(request):
-    return render(request, 'blog/plot_test_2.html')
+    # Simulated data (replace with your actual data retrieval logic)
+    data = [
+            {'user': 'User1', 'login_time': '2023-06-01 09:15:00', 'login_status': 'Success', 'height': 1},
+            {'user': 'User2', 'login_time': '2023-06-01 09:30:00', 'login_status': 'Fail', 'height': 2},
+            {'user': 'User1', 'login_time': '2023-06-02 10:45:00', 'login_status': 'Success', 'height': 1},
+            {'user': 'User3', 'login_time': '2023-06-02 11:00:00', 'login_status': 'Success', 'height': 3},
+            {'user': 'User2', 'login_time': '2023-06-03 11:20:00', 'login_status': 'Success', 'height': 2},
+            {'user': 'User4', 'login_time': '2023-06-03 12:10:00', 'login_status': 'Fail', 'height': 4},
+            {'user': 'User3', 'login_time': '2023-06-04 13:30:00', 'login_status': 'Success', 'height': 3},
+            {'user': 'User4', 'login_time': '2023-06-04 14:00:00', 'login_status': 'Success', 'height': 4},
+            {'user': 'User1', 'login_time': '2023-06-05 14:40:00', 'login_status': 'Fail', 'height': 1},
+            {'user': 'User2', 'login_time': '2023-06-05 15:20:00', 'login_status': 'Success', 'height': 2}
+        ]
+
+    date_string = "2023-08-04 12:00:00"
+    format_code = "%Y-%m-%d %H:%M:%S"
+    # Convert login_time to timestamp format
+    for item in data:
+        x = datetime.datetime.strptime(item['login_time'], format_code)       
+        item['login_time'] =  x.timestamp() * 1000
+        print(item['login_time'])
+
+    print(data)
+    # Convert data to JSON format
+    json_data = json.dumps(data)
+
+    # Render the template with the data
+    return render(request, 'blog/plot_test.html', {'data': json_data})
+
+
+def plot_view(request):
+    x = ['2020-01-23 10:12:21', '2020-01-23 10:20:10', '2020-01-25 10:20:10']
+    y = [20, 30, 15]
+    
+    return render(request, 'blog/plot_test_3.html', {'x': x, 'y': y})
+
+
+
+    # x = ['2020-01-23 10:12:21', '2020-01-23 10:20:10', '2020-01-25 10:20:10']
+    # y = [20, 30, 15]
+    
+    # data = {
+    #     'x': x,
+    #     'y': y
+    # }
+    
+    # return render(request, 'blog/plot_test_3.html', {'data': json.dumps(data)})

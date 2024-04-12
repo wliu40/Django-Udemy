@@ -3,94 +3,102 @@
 <head>
     <title>User Login Status Over Time</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@^2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@^1"></script>
 </head>
 <body>
     <canvas id="myChart"></canvas>
 
     <script>
-        // Assume you have the following data
-        const data = [
-            { user: 'User1', login_time: '09:15', login_status: 'Success' },
-            { user: 'User2', login_time: '09:30', login_status: 'Fail' },
-            { user: 'User1', login_time: '10:45', login_status: 'Success' },
-            { user: 'User3', login_time: '11:00', login_status: 'Success' },
-            { user: 'User2', login_time: '11:20', login_status: 'Success' },
-            { user: 'User4', login_time: '12:10', login_status: 'Fail' },
-            { user: 'User3', login_time: '13:30', login_status: 'Success' },
-            { user: 'User4', login_time: '14:00', login_status: 'Success' },
-            { user: 'User1', login_time: '14:40', login_status: 'Fail' },
-            { user: 'User2', login_time: '15:20', login_status: 'Success' }
-        ];
+        const data = {{ data|safe }};
 
-        // Extract unique users and create a color map
-        const users = [...new Set(data.map(item => item.user))];
-        const colorMap = {};
-        users.forEach((user, index) => {
-            colorMap[user] = `hsl(${(index * 60) % 360}, 70%, 50%)`;
-        });
+        function generateUserLoginStatusChart(data) {
+            // Extract unique users
+            const users = [...new Set(data.map(item => item.user))];
 
-        // Create datasets for each user
-        const datasets = users.map(user => ({
-            label: user,
-            data: data.filter(item => item.user === user).map(item => ({
-                x: item.login_time,
-                y: item.login_status === 'Success' ? 1 : 0
-            })),
-            backgroundColor: colorMap[user],
-            borderColor: colorMap[user],
-            pointRadius: 6,
-            pointHoverRadius: 8
-        }));
+            // Find the minimum and maximum login times
+            const minTime = Math.min(...data.map(item => item.login_time));
+            const maxTime = Math.max(...data.map(item => item.login_time));
 
-        // Create a Chart.js instance
-        const ctx = document.getElementById('myChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'scatter',
-            data: {
-                datasets: datasets
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'User Login Status Over Time'
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                const item = data[context.dataIndex];
-                                return `${item.user}: ${item.login_status} at ${item.login_time}`;
-                            }
-                        }
-                    }
+            // Create datasets for each user
+            const datasets = users.map(user => ({
+                label: user,
+                data: [
+                    { x: minTime, y: data.find(item => item.user === user).height },
+                    ...data.filter(item => item.user === user).map(item => ({
+                        x: new Date(item.login_time),
+                        y: item.height,
+                        login_status: item.login_status
+                    })),
+                    { x: maxTime, y: data.find(item => item.user === user).height }
+                ],
+                borderColor: 'rgba(0, 0, 0, 0.1)',
+                pointBackgroundColor: function(context) {
+                    const item = context.raw;
+                    return item.login_status === 'Success' ? 'rgba(0, 255, 0, 0.6)' : 'rgba(255, 0, 0, 0.6)';
                 },
-                scales: {
-                    x: {
-                        type: 'category',
+                pointRadius: 6,
+                pointHoverRadius: 8,
+                showLine: true
+            }));
+
+            // Create a Chart.js instance
+            const ctx = document.getElementById('myChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
                         title: {
                             display: true,
-                            text: 'Login Time'
+                            text: 'User Login Status Over Time'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const item = context.raw;
+                                    return `${item.login_status} on ${new Date(context.parsed.x).toLocaleString()}`;
+                                }
+                            }
                         }
                     },
-                    y: {
-                        type: 'linear',
-                        min: 0,
-                        max: 1,
-                        ticks: {
-                            stepSize: 1,
-                            callback: function(value) {
-                                return value === 1 ? 'Success' : 'Fail';
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'day',
+                                displayFormats: {
+                                    day: 'MMM DD, YYYY'
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Login Date'
                             }
                         },
-                        title: {
-                            display: true,
-                            text: 'Login Status'
+                        y: {
+                            type: 'linear',
+                            min: 0,
+                            max: users.length + 1,
+                            ticks: {
+                                stepSize: 1,
+                                callback: function(value, index) {
+                                    return users[index];
+                                }
+                            },
+                            grid: {
+                                display: false
+                            }
                         }
                     }
                 }
-            }
-        });
+            });
+        }
+
+        generateUserLoginStatusChart(data);
     </script>
 </body>
 </html>
