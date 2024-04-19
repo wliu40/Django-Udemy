@@ -139,3 +139,5 @@ def plot_view(request):
     # }
     
     # return render(request, 'blog/plot_test_3.html', {'data': json.dumps(data)})
+
+
