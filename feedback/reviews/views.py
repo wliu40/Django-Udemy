@@ -10,7 +10,7 @@ def starting_page(request):
 
 def posts(request):
     if request.method == 'POST':
-        form = ReviewForm(request.POST)
+        form = myform(request.POST)
         if form.is_valid():
             # process the data in form.cleaned_data
             print(form.cleaned_data)
@@ -22,7 +22,7 @@ def posts(request):
             review.save()
             return HttpResponseRedirect('/thankyou')
     else:
-        form = ReviewForm()
+        form = myform()
     return render(request, 'reviews/reviews.html', {'form': form})
 
 def thankyou(request):

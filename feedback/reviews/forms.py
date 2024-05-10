@@ -11,14 +11,19 @@ class ReviewForm(forms.ModelForm):
             'email': 'Your Email',
             'review': 'Your Review'
         }
-        errors = {
+        error_messages  = {
             'name': {
                 'required': 'Please enter your name:)',
                 'max_length': 'Please enter a shorter name:)',
+            },
+            'email': {
+                'required': 'Please enter your email:)',
+                'max_length': 'Please enter a shorter email:)',
             }
         }
 
 class myform(forms.Form):
-    name = forms.CharField(label='Your Name', max_length=100)
+    name = forms.CharField(label='Your Name', max_length=100, error_messages={'required': 'Please enter your name:)', 
+                                                                              'max_length': 'Please enter a shorter name:)'})
     email = forms.EmailField(label='Your Email', max_length=100)
     review = forms.CharField(label='Your Review', widget=forms.Textarea(attrs={'rows': 5, 'cols': 20}))
