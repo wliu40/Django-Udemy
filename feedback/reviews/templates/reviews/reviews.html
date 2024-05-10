@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +7,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reviews</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href= "{% static 'reviews/styles.css' %}">
+
 </head>
 
 <body>
@@ -17,18 +20,16 @@
         </div> 
     <form method="post">
         {% csrf_token %}
-        <!-- <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" class="form-control">
+        {% for f in form %}
+            <div class="form-control" {% if f.errors %} errors {% endif %}>
+                {{f.label_tag}}
+                {{f}}
+                {{f.errors}}
+            </div>
+        {% endfor %}
+
         </div>
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" class="form-control"></textarea> -->
-            {{form}}
+
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </body>
