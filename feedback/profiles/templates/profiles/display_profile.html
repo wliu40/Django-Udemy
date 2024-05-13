@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<head>
+    <title>Display Profile</title>
+</head>
+<body>
+    <h1>User Profile</h1>
+    <div>
+        <!-- Add your profile information here -->
+        {% for p in profiles %}
+            <img src="{{ p.user_image.url }}" alt="Profile Picture" width="200" height="200">
+        {% endfor %}
+    </div>
+</body>
+</html>
