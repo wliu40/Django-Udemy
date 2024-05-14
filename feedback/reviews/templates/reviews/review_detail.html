@@ -7,5 +7,15 @@
     <h1>{{review.name}}</h1>
     <p>{{review.comment}}</p>
     <p>{{review.rating}}</p>
+    {% if is_favorite_review %}
+        <p>This is one of your favorite reviews!</p>
+    {%else%}
+        <p>This is not one of your favorite reviews!</p>
+        <form action="/reviews/favorite" method="POST">
+            {%csrf_token%}
+            <input type="hidden" name="review_id" value="{{review.id}}">
+            <button type="submit">Favorite</button>
+        </form>
+    {%endif%}
 
 {%endblock%}

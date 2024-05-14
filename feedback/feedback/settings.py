@@ -130,3 +130,4 @@ MEDIA_URL = '/media-urlpath/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 7 # 1 week by default
