@@ -8,7 +8,7 @@ class PostAdmin(admin.ModelAdmin):
     list_filter = ('author', 'tags', 'date_posted')
     list_display = ('title', 'date_posted', 'author')
     prepopulated_fields = {'slug': ('title',)}  
-    
+
 class CommentAdmin(admin.ModelAdmin):
     list_display = ("user_name", "post")
 
