@@ -1,18 +1,13 @@
 from django import forms
+
 from .models import Comment
 
-
-class CommentForm(forms.Form):
+class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ['user_name', 'user_email', 'text'] # or exclude = ['post']
-        widgets = {
-            'user_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'user_email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'text': forms.Textarea(attrs={'class': 'form-control'})
-        }
+        exclude = ["post"]
         labels = {
-            'user_name': 'Your Name',
-            'user_email': 'Your Email',
-            'text': 'Your Comment'
+          "user_name": "Your Name",
+          "user_email": "Your Email",
+          "text": "Your Comment"
         }
